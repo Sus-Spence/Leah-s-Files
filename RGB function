@@ -1,0 +1,57 @@
+back=Rect(0,0,400,400,fill=gradient('black','white','black','white'))
+
+pattern3 = Group()
+pattern2 = Group()
+pattern1 = Group()
+
+Label('darker',50,10,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('lighter',350,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('+red',350,10,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('+green',50,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('click screen for more blue',200,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=15)
+
+scale=Line(0,370,400,370,fill='black',lineWidth=4)
+scaleClicker=Circle(10,370,10,fill='black')
+spot=Circle(10,10,10,fill='black')
+
+def drawLayer(pattern,sizeW,sizeH, angle,rotateAngles, dist, colors):
+    p = Oval(200,190,sizeW,sizeH,fill=colors[0],rotateAngle=20)
+    layer = Group(p)
+    layer.centerX, layer.centerY = getPointInDir(200, 200, angle, dist)
+    layer.rotateAngle = rotateAngles+angle
+    pattern.add(layer)
+
+def layers():
+    for angle in range(0,360,20):
+        layer3=drawLayer(pattern3, 140,40,angle,40, 77,['black'])
+                   
+    for angle in range(0, 360, 30):
+        layer2=drawLayer(pattern2,110,31.3, angle,100, 53,['black'])               
+    
+    for angle in range(0,360,40):
+        layer1=drawLayer(pattern1,66,27,angle,231, 32,['black'])
+    
+def onMouseMove(mouseX,mouseY):
+    spot.fill=rgb(mouseX*(1/2),mouseY*(1/2),0)
+    spot.centerX=mouseX
+    spot.centerY=mouseY
+    back.fill=gradient(rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),'white',rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),'white')
+    
+    pattern1.rotateAngle+=mouseX*(1/66)
+    pattern2.rotateAngle-=mouseY*(1/66)
+    pattern3.rotateAngle+=scaleClicker.centerX*(1/66)
+    
+    pattern1.fill=gradient(rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(mouseX*(1/2),0,0),rgb(mouseX*(1/2),0,0),start='left')
+    pattern2.fill=gradient(rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(0,mouseY*(1/2),0),rgb(0,mouseY*(1/2),0),start='right') 
+    pattern3.fill=gradient(rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),rgb(0,0,scaleClicker.centerX*(1/2)),rgb(0,0,scaleClicker.centerX*(1/2)),start='right')
+    
+def onStep():
+    pattern1.rotateAngle+=0.25
+    pattern2.rotateAngle-=0.25
+    pattern3.rotateAngle+=0.25
+    
+def onMousePress(mouseX,mouseY):
+    scaleClicker.fill=rgb(0,0,mouseX*(1/2))
+    scaleClicker.centerX=mouseX
+    
+layers()
