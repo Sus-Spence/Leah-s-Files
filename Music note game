@@ -1,0 +1,104 @@
+app.background='aquamarine'
+app.points=Label(0,50,20,fill='red',font='arial',bold=True,size=30)
+
+whole=Group(
+    Oval(200,200,25,15,fill='black',borderWidth=3),
+    Oval(200,200,20,10,fill='aquamarine',borderWidth=3))
+
+half=Group(
+    Oval(200,200,25,15,fill='black',border='black'),
+    Oval(200,200,20,10,fill='aquamarine',borderWidth=3),
+    Line(whole.right,200,whole.right,130,fill='black',lineWidth=3))
+
+quater=Group(
+    Oval(200,200,25,15,fill='black'),
+    Line(whole.right,200,whole.right,130,fill='black',lineWidth=3))
+    
+sixteenth=Group(
+    Oval(200,200,25,15,fill='black'),
+    Oval(whole.right+7,half.top,15,7,fill='black'),
+    Oval(whole.right+7,half.top+3,15,7,fill='aquamarine'),
+    Line(whole.right,200,whole.right,130,fill='black',lineWidth=3))
+    
+thirtysecond=Group(
+    Oval(200,200,25,15,fill='black'),
+    Oval(whole.right+7,half.top,15,7,fill='black'),
+    Oval(whole.right+7,half.top+3,15,7,fill='aquamarine'),
+    Oval(whole.right+7,half.top+6,15,7,fill='black'),
+    Oval(whole.right+7,half.top+9,15,7,fill='aquamarine'),
+    Line(whole.right,200,whole.right,130,fill='black',lineWidth=3))
+    
+half.centerX-=100
+quater.centerX+=100
+sixteenth.centerY-=100
+thirtysecond.centerY+=100
+
+wholeName=Label('Whole Note',100,290,fill='black',font='arial',size=17)
+    
+halfName=Label('Half Note',100,370,fill='black',font='arial',size=17)
+    
+quaterName=Label('Quarter Note',300,370,fill='black',font='arial',size=17)
+    
+sixteenthName=Label('Sixteenth Note',300,290,fill='black',font='arial',size=17)
+    
+thirtysecondName=Label('Thirtysecond Note',200,330,fill='black',font='arial',size=17)
+
+notes=Group(whole,half,quater,sixteenth,thirtysecond)
+labelNames=['Whole Note','Half Note','Quater Note','Sixteenth Note','Thirtysecond Note']
+labelNamesSecond=Group(wholeName,halfName,quaterName,sixteenthName,thirtysecondName)
+
+app.answers={
+        'whole': 'Whole Note',
+        'half': 'Half Note',
+        'quarter': 'Quater Note',
+        'sixteenth': 'Sixteenth Note',
+        'thirtysecond': 'Thirtysecond Note'
+    }
+whole.visible=False
+half.visible=False
+quater.visible=False
+sixteenth.visible=False
+thirtysecond.visible=False
+
+def nextNote():
+    randomList=['whole','half','quarter','sixteenth','thirtysecond']
+    random=randrange(len(randomList))
+    newNote=randomList[random]
+    app.newNote = newNote
+    if (newNote=='whole'):
+        whole.visible=True
+
+    elif(newNote=='half'):
+        half.visible=True
+    
+    elif(newNote=='quarter'):
+        quater.visible=True
+    
+    elif(newNote=='sixteenth'):
+        sixteenth.visible=True
+    
+    elif(newNote=='thirtysecond'):
+        thirtysecond.visible=True
+
+    return newNote
+app.noteDrawn=nextNote()
+
+def checkMatch(key,val):
+    if app.answers[key]==val:
+        app.points.value+=1
+    else:
+        app.points.value-=1
+
+def onMousePress(mouseX,mouseY):
+    note=labelNamesSecond.hitTest(mouseX,mouseY)
+    if note!=None:
+        val=note.value
+        checkMatch(app.noteDrawn,val)
+        
+        whole.visible=False
+        half.visible=False
+        quater.visible=False
+        sixteenth.visible=False
+        thirtysecond.visible=False
+        app.noteDrawn=nextNote()
+    
