@@ -1,0 +1,28 @@
+back=Rect(0,0,400,400,fill='white')
+
+redC=Circle(170,200,10,fill='black')
+greenC=Circle(200,200,10,fill='black')
+blueC=Circle(230,200,10,fill='black')
+
+Label('darker',50,10,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('lighter',350,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('+red',350,10,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('+green',50,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=20)
+Label('click screen for more blue',200,390,fill=gradient('green','red','green','red','green','red',start='bottom'),bold=True,size=15)
+
+scale=Line(0,370,400,370,fill='black',lineWidth=4)
+scaleClicker=Circle(10,370,10,fill='black')
+spot=Circle(10,10,10,fill='black')
+
+def onMousePress(mouseX,mouseY):
+    scaleClicker.fill=rgb(0,0,mouseX*(1/2))
+    scaleClicker.centerX=mouseX
+    
+def onMouseMove(mouseX,mouseY):
+    spot.fill=rgb(mouseX*(1/2),mouseY*(1/2),0)
+    spot.centerX=mouseX
+    spot.centerY=mouseY
+    back.fill=gradient('white',rgb(mouseX*(1/2),mouseY*(1/2),scaleClicker.centerX*(1/2)),'white')
+    redC.fill=rgb(mouseX*(1/2),0,0)
+    greenC.fill=rgb(0,mouseY*(1/2),0)
+    blueC.fill=rgb(0,0,scaleClicker.centerX*(1/2))
