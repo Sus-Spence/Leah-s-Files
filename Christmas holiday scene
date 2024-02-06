@@ -1,0 +1,188 @@
+#heather, crage, morgan
+#background
+wall=Group(
+    Polygon(80,0,320,0,320,340,80,340,fill=rgb(255,224,191)),
+    Polygon(0,0,80,0,80,340,0,400,fill=rgb(255,224,191)),
+    Polygon(320,0,400,0,400,400,320,340,fill=rgb(255,224,191))
+    )
+
+#soundz=Sound('https://freesound.org/people/se2001/sounds/478601/')
+
+#Click on tree
+click=Label('Click the Tree to get Lights!', 200, 12, font='sacramento', size=18)
+
+sleigh = Group(
+    #sleigh
+    Polygon(175, 146, 183, 149, 188, 146, 190, 141, 195, 140, 197, 149, 179, 156, 172, 147),
+    Line(191, 150, 192, 153),
+    Line(182, 154, 183, 157),
+    Line(178, 158, 196, 153),
+    #Santa
+    Circle(183, 147, 5),
+    Circle(181, 140, 3),
+    Polygon(178, 131, 184, 137, 177, 139),
+    Circle(178, 132, 2),
+    Oval(184, 141, 4, 3),
+    #Reindeer
+    Polygon(208, 147, 207, 138, 210, 136, 219, 134, 222, 132, 223, 130, 228, 130, 230, 133, 230, 135, 225, 137, 222, 145, 219, 146, 218, 141, 212, 142, 210, 147),
+    Line(226, 131, 226, 124),
+    Line(226, 127, 219, 125),
+    Line(224, 130, 230, 124),
+    Line(222, 125, 220, 122),
+    Line(228, 125, 229, 121),
+    #Ropes
+    Line(195, 145, 207, 140)
+    )
+sleigh.centerX=33
+sleigh.centerY=190
+wall.toFront()
+
+app.isSleighPast=False
+
+#windowbackground
+Rect(90, 85, 210, 180, fill='darkBlue')
+Oval(172, 240, 60, 40, fill='white')
+Oval(210, 240, 50, 30, fill='white')
+Oval(258, 248, 50, 20, rotateAngle=15, fill='white')
+Oval(290, 245, 40, 30, fill='white')
+Oval(135, 239, 30, 10, fill='white')
+sleigh.toFront()
+
+#wall coverup
+Polygon(80,0,320,0,320, 83, 80, 80,fill=rgb(255,224,191))
+Polygon(0,0,80,0,80,340,0,400,fill=rgb(255,224,191))
+Polygon(320,0,400,0,400,400,320,340,fill=rgb(255,224,191))
+Polygon(310, 85, 310, 270, 320, 270, 320, 85, fill=rgb(255,224,191))
+
+#firebackground
+Oval(370,340,60,120)
+Star(370,360,25,100,fill=gradient('yellow','orange'))
+
+#snow
+snow=Group()
+for i in range(0, 20):
+    snowFlake = Circle(randrange(80, 310), randrange(80, 280), 2, fill='white')
+    snow.add(snowFlake)
+
+#floor
+Polygon(80,340,320,340,400,400,0,400,fill=rgb(115,79,40),opacity=80)
+Line(0,400,80,340,lineWidth=3)
+Line(400,400,320,340,lineWidth=3)
+Line(80,340,320,340,lineWidth=3)
+Line(80,340,80,0,lineWidth=3)
+Line(320,340,320,0,lineWidth=3)
+
+#fireplace
+Polygon(320,180,400,220,400,260,320,220,fill='darkRed',border='black')
+Line(336,190,336,228)
+Line(352,198,352,236)
+Line(368,206,368,244)
+Line(384,214,384,252)
+Polygon(320,340,320,400,400,400,fill=rgb(115,79,40),opacity=60)
+Polygon(320,217,336,225,336,351,320,340,fill='darkRed',border='black')
+
+#lists for lights
+app.lightX=[27, 45, 73, 99, 118, 133, 118, 105, 84, 62, 46, 106, 89, 72, 56, 41, 58, 78, 96, 110, 97, 79, 65, 82, 96]
+app.lightY=[276, 287, 296, 297, 292, 282, 235, 246, 258, 262, 263, 225, 225, 223, 215, 199, 190, 189, 186, 181, 164, 159, 145, 138, 128]
+app.colors=['red','orange','yellow','lightGreen','blue','purple', 'red','orange','yellow','lightGreen','blue','purple', 'red','orange','yellow','lightGreen','blue','purple', 'red','orange','yellow','lightGreen','blue','purple', 'red']
+
+window=Group(
+    Rect(86,81,224,190,fill=None,border=rgb(145,88,9),borderWidth=7),
+    Polygon(93,264,150,241,150,100,93,88,fill=None,border=rgb(79,48,2),borderWidth=5),
+    Polygon(246,241,303,264,303,88,246,100,fill=None,border=rgb(79,48,2),borderWidth=5),
+    Line(150,102,246,102,fill=rgb(79,48,2),lineWidth=5),
+    Line(93,177,150,171,lineWidth=5,fill=rgb(79,48,2)),
+    Line(120,96,121,251,fill=rgb(79,48,2)),
+    Line(246,171,303,177,lineWidth=5,fill=rgb(79,48,2)),
+    Line(275,96,275,251,fill=rgb(79,48,2)),
+    Polygon(93,264,303,264,246,241,150,241,fill=rgb(79,48,2)),
+    Polygon(93,88,150,102,246,100,303,88,93,88,fill=rgb(79,48,2))
+    )
+    
+garland=Group(
+    Oval(120, 34, 95, 30, fill='green'),
+    Oval(280, 34, 95, 30, fill='green'),
+    Oval(200, 36, 95, 30, fill='green'),
+    Oval(120, 20, 77, 25, fill=rgb(255,224,191)),
+    Oval(280, 20, 77, 25, fill=rgb(255,224,191)),
+    Oval(200, 22, 77, 25, fill=rgb(255,224,191)),
+    Circle(159, 35, 12, fill='crimson'),
+    Circle(245, 35, 12, fill='crimson'),
+    Circle(80, 35, 12, fill='crimson'),
+    Circle(320, 35, 12, fill='crimson')
+    )
+click.toFront()
+
+#tree
+tree = Group(
+    Rect(115, 310, 50, 50, fill='saddleBrown'),
+    Polygon(140, 70, 60, 310, 220, 310, fill='green'),
+    Polygon(140, 70, 80, 200, 200, 200, fill='green'),
+    Polygon(140, 70, 100, 125, 180, 125, fill='green')
+        )
+tree.centerX=80
+tree.bottom=373
+
+#present
+app.color1=['red','green','blue']
+app.color2=['yellow','violet','orange']
+app.color3=['teal','gold','purple']
+
+app.present=[]
+
+def drawPresent(x,y,color1,color2,color3):
+    present=Rect(x,y,50,50,fill=(gradient(color1,color2)))
+    bow=Star(x+25,y,20,15,fill=color3)
+    app.present.append(present)
+    app.present.append(bow)
+
+#draws lights
+def drawRainbowLights():
+    for index in range(len(app.lightX)):
+        Oval(app.lightX[index], app.lightY[index], 6, 10, fill=app.colors[index])
+
+def drawBlueLights():
+    for index in range(len(app.lightX)):
+        Oval(app.lightX[index], app.lightY[index], 6, 10, fill='lightBlue')
+
+def drawStar():
+    Polygon(75, 87, 85, 87, 90, 95, 69, 95, fill='chocolate')
+    Polygon(80, 80, 75, 88, 85, 88, fill='chocolate')
+    Star(80, 75, 25, 5, fill='orange')
+    
+#happy holidays
+happy=Label('happy holidays!',200,-50,size=50,fill='red',font='sacramento',bold=True)
+
+#onMousePress Questions
+def onMousePress(mouseX, mouseY):
+    if(tree.hits(mouseX, mouseY)):
+        app.message = app.getTextInput('Would you like your lights to be Rainbow or Light Blue?')
+
+        if (app.message == 'Rainbow' or app.message == 'rainbow'):
+            drawRainbowLights()
+            drawStar()
+
+        if (app.message=='Light Blue' or app.message=='light blue'):
+            drawBlueLights()
+            drawStar()
+            
+def onStep():
+    for snowflake in snow.children:
+        if(snowflake.centerY>=240):
+            snowflake.centerY=89
+        else:
+            snowflake.centerY+=1
+            
+    if (sleigh.centerX<400):
+        sleigh.centerX+=1
+        sleigh.centerY-=0.25
+        
+    if (sleigh.centerX==320):
+        drawPresent(15,340,app.color1[0],app.color2[0],app.color3[0])
+        drawPresent(110,340,app.color1[2],app.color2[2],app.color3[2])
+        drawPresent(70,350,app.color1[1],app.color2[1],app.color3[1])
+    if(sleigh.centerX>=320):
+        happy.centerY+=3
+        
+#    if (sleigh.right>=100) and (sleigh.left<=300):
+#        soundz.play()
