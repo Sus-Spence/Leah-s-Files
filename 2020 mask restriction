@@ -1,0 +1,165 @@
+app.background=gradient('springGreen','BlueViolet','deepPink')
+Star(200,200,200,10,fill=gradient('mediumSpringGreen','mediumPurple','hotPink'))
+Line(133,0,133,400,lineWidth=3)
+Line(266,0,266,400,lineWidth=3)
+Line(0,133,400,133,lineWidth=3)
+Line(0,266,400,266,lineWidth=3)
+
+
+
+heads=Group(
+    Circle(66,66,15),
+    Circle(200,66,15),
+    Circle(333,66,15),
+    Circle(66,199,15),
+    Circle(200,199,15),
+    Circle(333,199,15),
+    Circle(66,332,15),
+    Circle(200,332,15),
+    Circle(333,332,15))
+
+#props
+#period1
+Rect(216,100,30,3,fill='blue')
+Rect(246,70,3,33,fill='blue')
+Label('type',230,60,size=10)
+Label('type',160,50,size=10)
+Label('type',180,110,size=10)
+
+#period2
+Star(296,77,25,5,fill='yellow')
+
+#period3
+Star(20,200,25,3,roundness=50,fill='yellow')
+Line(5,200,35,200)
+Line(12,188,28,188)
+
+#period4
+Rect(215,207,30,38,fill='darkRed',rotateAngle=25)
+Rect(220,210,25,40,fill='red',rotateAngle=20)
+Label('words',150,225,size=10)
+Label('words',167,175,size=10)
+Label('words',240,200,size=10)
+
+#period5
+Rect(355,175,30,38,fill='darkRed',rotateAngle=-35)
+Rect(363,173,25,40,fill='red',rotateAngle=-40)
+Label('study',310,233,size=10)
+Label('study',305,177,size=10)
+
+#period6
+Rect(10,320,30,40,fill='white')
+Label('DNA',25,340,fill='black')
+
+#Period7
+Rect(227,335,20,28,fill='darkRed',rotateAngle=-35)
+Rect(235,333,15,30,fill='red',rotateAngle=-40)
+Line(250,335,266,335)
+Line(255,340,266,340)
+Line(260,345,266,345)
+Label('?',220,315,size=20,bold=True)
+
+#period8
+Circle(364,347,7,fill='blue')
+Line(307,347,307,325,fill='blue')
+Circle(302,347,7,fill='blue')
+Line(369,347,369,325,fill='blue')
+
+#pepz
+###row1
+Label('My',66,10,size=20)
+Label('schedule',66,25,size=20)
+
+Line(66,66,66,133)
+Line(40,80,66,99)
+Line(66,99,92,80)
+
+#period 1
+Label('Period 1',200,10,size=20)
+Label('AP Computer Science',200,25,size=14)
+
+Line(200,66,200,133)
+Line(226,90,200,99)
+Line(200,99,226,80)
+
+#period 2
+Label('Period 2',333,10,size=20)
+Label('Geometry',333,25,size=14)
+
+Line(333,66,333,133)
+Line(333,99,306,80)
+Line(333,99,346,108)
+Line(346,108,333,125)
+
+###row2
+#period 3
+Label('Period 3',66,145,size=20)
+Label('World History II', 66,160,size=14)
+
+Line(66,199,66,266)
+Line(66,232,40,213)
+Line(66,232,79,241)
+Line(79,241,66,258)
+
+#period 4
+Label('Period 4',200,145,size=20)
+Label('English 10',200,160,size=14)
+
+Line(200,199,200,266)
+Line(200,232,216,225)
+Line(200,232,226,233)
+
+#period 5
+Label('Period 5',333,145,size=20)
+Label('Study!',333,160,size=14)
+
+Line(333,199,333,266)
+Line(333,232,365,198)
+Line(333,232,365,208)
+
+###row3
+#period 6
+Label('Period 6',66,277,size=20)
+Label('Biology',66,292,size=14)
+
+Line(66,332,66,400)
+Line(66,366,40,340)
+Line(66,366,79,375)
+Line(66,394,79,375)
+
+#period 7
+Label('Period 7',200,277,size=20)
+Label('More Studying!',200,292,size=14)
+
+Line(200,332,200,400)
+Line(200,366,195,390)
+Line(200,366,205,390)
+
+#period 8
+Label('Period 8',333,277,size=20)
+Label('Band!',333,292,size=14)
+
+Line(333,332,333,400)
+Line(333,366,307,347)
+Line(333,366,359,347)
+
+
+def drawMask(centerX,centerY):
+    mask=Group(
+        Circle(centerX-12,centerY,7,fill=None,border='black',borderWidth=1),
+        Circle(centerX+13,centerY,7,fill=None,border='black',borderWidth=1),
+        Rect(centerX-12,centerY-7,25,15,fill='gray',border='black',borderWidth=1),
+        Line(centerX-12,centerY+3,centerX+13,centerY+3,fill='black',lineWidth=1),
+        Line(centerX-12,centerY-2,centerX+13,centerY-2,fill='black',lineWidth=1))
+  
+miss=Label('MISS, TRY AGAIN',200,200,fill='red',size=45,border='purple',visible=False)
+Direction=Label('Click on the persons face to give them a mask!',200,200,fill='red',size=18,border='purple',borderWidth=1)
+
+def onMousePress(mouseX,mouseY):
+    Direction.visible=False
+    if(heads.contains(mouseX,mouseY)==True):
+        drawMask(mouseX,mouseY)
+        miss.visible=False
+    else:
+        miss.visible=True
+        miss.toFront()
