@@ -1,0 +1,152 @@
+app.stepsPerSecond=3
+#background
+app.background='cyan'
+Rect(0,300,400,100,fill='darkGreen')
+
+import random
+score=Label(0,20,13,fill='purple',size=20)
+Label('Test out your accuracy and speed by',200,13,fill='black',size=15)
+Label('clicking the bubbles.',200,30,fill='black',size=15)
+Label('Every 40 points, you acess new levels!',200,47,fill='black',size=15)
+
+answ=app.getTextInput('Do you want a pin to help pop the bubbles? 1 for Yes or 2 for No?')
+answer=int(answ)
+pin=Group(Rect(325,85,12,13,fill='red'),
+    Oval(331,85,16,8,fill='red'),
+    Line(331,98,331,107,fill='darkGray'))
+pin.visible=False
+
+if (answer==1):
+    pin=Group(Rect(325,85,12,13,fill='red'),
+    Oval(331,85,16,8,fill='red'),
+    Line(331,98,331,107,fill='darkGray'))
+    pin.visible=True
+    pin.rotateAngle=45
+if (answer==2):
+    pin.visible=False
+    
+pin.centerX=420
+
+level=Label('Level',200,330,fill='black',bold=True,size=40)
+stage=Label(1,200,370,fill='black',bold=True,size=40)
+
+    
+#person
+Circle(40,140,40,fill=None,border='black')
+Line(40,180,40,270,fill='black')
+Line(40,270,10,315,fill='black')
+Line(40,270,70,315,fill='black')
+Line(0,210,105,210,fill='black',rotateAngle=-30)
+#face
+face=Group(
+    Oval(35,135,25,35,fill=None,border='black'),
+    Oval(59,135,25,35,fill=None,border='black'),
+    #eyes
+    Oval(35,135,25,35,fill='black'),
+    Oval(59,135,25,35,fill='black'),
+    Circle(61,127,8,fill='white'),
+    Circle(37,127,8,fill='white'),
+    Circle(31,145,5,fill='white'),
+    Circle(55,145,5,fill='white'),
+    #mouth
+    Line(42,155,47,160,fill='black'),
+    Line(52,155,47,160,fill='black'))
+face.centerX+=7
+topMouth=Line(49,155,59,155,fill='black',visible=False)
+
+#startbutton
+buttonText1=Label('Start!',200,210,size=60,fill='white',bold=True)
+buttonText2=Label('press me to',200,170,size=20,fill='white',bold=True)
+button=Group(
+    Circle(200,200,100,fill='red',border='black',borderWidth=15),
+    buttonText1,
+    buttonText2)
+
+#wand
+wand=Group(
+    Line(98,184,98,150,fill='crimson',lineWidth=5),
+    Oval(98,130,30,40,fill=None,border='crimson'))
+
+app.sizes=[20,18,13,17,15,10,9]
+app.floats=[0.25,0.50,1,2,3,4,5,6,0,-1,-2,-4,-6]
+app.bubbleColor=['pink','green','blue','purple','orange','yellow','red','magenta']
+
+poppedBubbles=Group()
+bubbles=Group()
+pin.toFront()
+
+def onMouseMove(mouseX,mouseY):
+    if (button.visible==False):
+        pin.centerX=mouseX
+        pin.centerY=mouseY
+
+
+#bubbles
+def drawbubble(x,y,color,big,lift):
+    bubble=Circle(x,y,big,fill=gradient('cyan','cyan',color))
+    bubbles.add(bubble)
+    bubble.centerX=98
+    bubble.centerY=130
+    
+#poppedBubble
+def drawPopped(x,y,sise):
+    color='black'
+    if (pin.visible==True):
+        popped=Star(x,y,30,sise,fill=None,border='pink')
+    elif (pin.visible==False):
+        popped=Star(x,y,30,sise,fill=None,border='orange')
+    poppedBubbles.add(popped)
+        
+def onMousePress(mouseX,mouseY):
+    if(button.contains(mouseX,mouseY)==True)and(button.visible==True):
+        buttonText1.size-=15
+        buttonText1.centerY-=5
+        buttonText2.size-=5
+        buttonText2.centerY+=5
+    
+    for bubble in (bubbles):
+        if(bubble.contains(mouseX,mouseY)==True)and(pin.visible==True):
+            score.value+=2
+            bubble.visible=False
+            colorz=random.choice(app.bubbleColor)
+            drawPopped(mouseX,mouseY,40)
+            topMouth.visible=True
+            
+        elif(bubble.contains(mouseX,mouseY)==True):
+            bubble.visible=False
+            colorz=random.choice(app.bubbleColor)
+            drawPopped(mouseX,mouseY,20)
+            topMouth.visible=True
+            score.value+=1
+            
+def onMouseRelease(mouseX,mouseY):
+    button.visible=False
+    if (topMouth.visible==True):
+        for popped in(poppedBubbles):
+            popped.visible=False
+        topMouth.visible=False
+        
+def onStep():
+#levels
+    if (score.value>=40):
+        stage.value+=1
+        stage.fill=rgb(randrange(0,255),randrange(0,255),randrange(0,255))
+        level.fill=stage.fill
+        app.stepsPerSecond+=2
+        score.value=0
+    if (stage.value>=5):
+        Label('YOU WIN!',200,200,fill='yellow',border='black',borderWidth=2,size=70)
+        app.stop()
+        
+    colorz=random.choice(app.bubbleColor)
+    size=random.choice(app.sizes)
+    floatz=random.choice(app.floats)
+    
+    if(button.visible==False):
+        drawbubble(98,130,colorz,size,floatz)
+    for bubble in (bubbles):
+        if(bubble.centerX>=433):
+            bubble.visible=False
+        else:
+            bubbles.centerY+=floatz
+            bubbles.centerX+=4
